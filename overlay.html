@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Overlay-Steuerung</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #222;
+      color: #fff;
+      margin: 20px;
+    }
+    .input-area {
+      margin-bottom: 20px;
+    }
+    .input-area input {
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    .bubble {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50px;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="input-area">
+    <input type="text" id="name1" placeholder="Name 1">
+    <input type="number" id="zahl1" placeholder="Zahl 1">
+    <button onclick="updateBubble(1)">Aktualisieren</button>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="name2" placeholder="Name 2">
+    <input type="number" id="zahl2" placeholder="Zahl 2">
+    <button onclick="updateBubble(2)">Aktualisieren</button>
+  </div>
+
+  <div>
+    <div class="bubble" id="bubble1">Test 1 5</div>
+    <div class="bubble" id="bubble2">Test 5</div>
+  </div>
+
+  <script>
+    function updateBubble(num) {
+      const name = document.getElementById('name' + num).value || 'Name';
+      const zahl = document.getElementById('zahl' + num).value || '0';
+      document.getElementById('bubble' + num).innerText = name + ' ' + zahl;
+    }
+  </script>
+</body>
+</html>
