@@ -1,59 +1,106 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Overlay-Steuerung</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #222;
-      color: #fff;
-      margin: 20px;
-    }
-    .input-area {
-      margin-bottom: 20px;
-    }
-    .input-area input {
-      padding: 10px;
-      font-size: 16px;
-      margin-right: 10px;
-    }
-    .bubble {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 50px;
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #000;
-    }
-  </style>
+	<meta charset="UTF-8">
+	<title>Loading-screen</title>
+	<link rel="stylesheet" href="./css/style.css"> <!-- Custom styles -->
+	<link rel="stylesheet" href="./css/loading.css"> <!-- Custom styles -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<!-- Include jQuery library -->
+	<script src="./script.js"></script> <!-- Include custom JavaScript file -->
 </head>
+
 <body>
-  <div class="input-area">
-    <input type="text" id="name1" placeholder="Name 1">
-    <input type="number" id="zahl1" placeholder="Zahl 1">
-    <button onclick="updateBubble(1)">Aktualisieren</button>
-  </div>
+	<div id="container">
+		<div class="background-container">
+			<div class="background backgroundToLeftAnim" id="background"></div>
+			<!-- Background container with animation class -->
+		</div>
 
-  <div class="input-area">
-    <input type="text" id="name2" placeholder="Name 2">
-    <input type="number" id="zahl2" placeholder="Zahl 2">
-    <button onclick="updateBubble(2)">Aktualisieren</button>
-  </div>
 
-  <div>
-    <div class="bubble" id="bubble1">Test 1 5</div>
-    <div class="bubble" id="bubble2">Test 5</div>
-  </div>
+		<div class="loader-container">
+		  <div class="loader"></div>
+		</div>
 
-  <script>
-    function updateBubble(num) {
-      const name = document.getElementById('name' + num).value || 'Name';
-      const zahl = document.getElementById('zahl' + num).value || '0';
-      document.getElementById('bubble' + num).innerText = name + ' ' + zahl;
-    }
-  </script>
+		<div class="logo-container">
+			<div class="logoShader"></div>
+			<div class="logo"></div>
+		</div>
+		
+		<h1 class="text-container"></h1>
+	</div>
+
+	<script>
+		const messages = ["", "", ""];
+		let currentIndex = 0;
+
+		const messageElement = document.createElement("div");
+		messageElement.id = "message";
+		messageElement.style.position = "fixed";
+		messageElement.style.top = "60%";
+		messageElement.style.left = "50%";
+		messageElement.style.transform = "translate(-50%, -50%)";
+		messageElement.style.fontSize = "2rem";
+		messageElement.style.fontWeight = "bold";
+		messageElement.style.textAlign = "center";
+		messageElement.style.width = "100%";
+
+		document.body.appendChild(messageElement);
+
+		function showMessage() {
+			messageElement.style.opacity = 0; // Hide the current message
+
+			setTimeout(() => {
+				messageElement.textContent = messages[currentIndex]; // Update the message
+
+				messageElement.style.opacity = 1; // Show the new message
+
+				currentIndex++;
+				if (currentIndex >= messages.length) {
+					currentIndex = 0;
+				}
+
+				setTimeout(showMessage, 10000); // Show the next message after 10 seconds
+			}, 500); // Wait for 0.5 seconds for the transition to complete
+		}
+
+		showMessage(); // Start the message display function
+	</script>
+
+	<!-- Audio Stuff -->
+	<div id="page">
+		<audio id='music' volume='0.65' autoplay loop>
+			<source src="assets/music.mp3" type="audio/mpeg"> <!-- Add audio source file -->
+			Error
+		</audio>
+		<script>
+			var audio = document.getElementById("music"); // Get the audio element by ID
+			audio.volume = 0.25; // Set the audio volume
+
+			function toggleAudio() {
+				if (audio.paused) {
+					audio.play(); // Play audio if it is paused
+				} else {
+					audio.pause(); // Pause audio if it is playing
+				}
+			}
+
+			function startAudio() {
+				audio.play(); // Start playing the audio
+			}
+
+			document.addEventListener('keypress', function (evt) {
+				if (evt.keyCode == 32) { // If spacebar is pressed
+					toggleAudio(); // Toggle audio play/pause
+				}
+			});
+
+			window.onload = function () {
+				startAudio(); // Start playing audio when the window is loaded
+			}
+		</script>
+	</div>
 </body>
+
 </html>
